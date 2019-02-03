@@ -1,8 +1,14 @@
 import React from "react";
+import { ThemeProvider } from "styled-components"; 
+
+import { theme } from "../../theme";
+import { Dashboard } from "../../Components";
 
 const App = () => {
   return (
-    <div>asdfghjkl</div>
+    <ThemeProvider theme={theme}>
+      <Dashboard />
+    </ThemeProvider>
   );
 }
  
