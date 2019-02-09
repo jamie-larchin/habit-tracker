@@ -1,1 +1,1 @@
-export { default as Callback } from "./Callback";
+export { default } from "./Callback";

@@ -1,2 +1,2 @@
-export { Auth } from "./Auth";
-export { History } from "./History";
+export { default as Auth } from "./Auth";
+export { default as History } from "./History";

@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import { Logo } from "../../Components";
+import { Logo } from "..";
 
 class Header extends Component {
     login = () => {
         const { auth } = this.props;
         auth.login();
-    }
+    };
 
     logout = () => {
         const { auth } = this.props;
         auth.logout();
-    }
+    };
 
     render() {
         const { auth } = this.props;
@@ -21,10 +21,15 @@ class Header extends Component {
             <Container>
                 <Inner>
                     <Logo />
-                    {auth.isAuthenticated()
-                        ? <button onClick={this.logout}>Logout</button>
-                        : <button onClick={this.login}>Login</button>
-                    }
+                    {auth.isAuthenticated() ? (
+                        <button onClick={this.logout} type="button">
+                            Logout
+                        </button>
+                    ) : (
+                        <button onClick={this.login} type="button">
+                            Login
+                        </button>
+                    )}
                 </Inner>
             </Container>
         );
@@ -46,5 +51,5 @@ const Inner = styled.div`
     flex-grow: 1;
     margin: 0 1rem;
 `;
- 
+
 export default Header;

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { ThemeProvider } from "styled-components"; 
+import { ThemeProvider } from "styled-components";
 
-import { theme } from "../../theme";
-import { Dashboard } from "../../Components";
+import theme from "../../theme";
+import { Dashboard } from "..";
 
 class App extends Component {
     componentDidMount() {
@@ -22,5 +22,5 @@ class App extends Component {
         );
     }
 }
- 
+
 export default App;

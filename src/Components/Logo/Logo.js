@@ -10,11 +10,11 @@ const Logo = () => {
             <H1>Habit Tracker</H1>
         </Container>
     );
-}
+};
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 `;
 
 const Img = styled.img`
@@ -25,5 +25,5 @@ const Img = styled.img`
 const H1 = styled.h1`
     text-transform: lowercase;
 `;
- 
+
 export default Logo;

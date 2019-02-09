@@ -1,11 +1,9 @@
 import React from "react";
 
-import { Header } from "../../Components";
+import { Header } from "..";
 
 const Dashboard = ({ auth }) => {
-    return (
-        <Header auth={auth} />
-    );
-}
+    return <Header auth={auth} />;
+};
 
 export default Dashboard;
