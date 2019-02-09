@@ -1,16 +1,34 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 import { Logo } from "../../Components";
 
-const Header = () => {
-  return (
-    <Container>
-        <Inner>
-            <Logo />
-        </Inner>
-    </Container>
-  );
+class Header extends Component {
+    login = () => {
+        const { auth } = this.props;
+        auth.login();
+    }
+
+    logout = () => {
+        const { auth } = this.props;
+        auth.logout();
+    }
+
+    render() {
+        const { auth } = this.props;
+
+        return (
+            <Container>
+                <Inner>
+                    <Logo />
+                    {auth.isAuthenticated()
+                        ? <button onClick={this.logout}>Logout</button>
+                        : <button onClick={this.login}>Login</button>
+                    }
+                </Inner>
+            </Container>
+        );
+    }
 }
 
 const Container = styled.header`
