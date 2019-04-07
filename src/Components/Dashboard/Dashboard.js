@@ -1,21 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
+import styled from "styled-components";
 
-class Dashboard extends Component {
-    state = {
-        profile: {}
-    };
+import { Calendar } from "..";
 
-    componentDidMount() {
-        const { auth } = this.props;
-        auth.getProfile((err, profile) => {
-            this.setState({ profile });
-        });
-    }
+const Dashboard = () => {
+    return (
+        <Container>
+            <Inner>
+                <Calendar />
+            </Inner>
+        </Container>
+    );
+};
 
-    render() {
-        const { profile } = this.state;
-        return <div>Welcome, {profile.name}!</div>;
-    }
-}
+const Container = styled.main`
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 0;
+`;
+
+const Inner = styled.div`
+    max-width: ${props => props.theme.widths.site};
+    flex-grow: 1;
+    margin: 0 2rem;
+`;
 
 export default Dashboard;

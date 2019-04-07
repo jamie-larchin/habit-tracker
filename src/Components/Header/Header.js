@@ -61,7 +61,7 @@ const Inner = styled.div`
     justify-content: space-between;
     align-items: center;
     flex-grow: 1;
-    margin: 0 1rem;
+    margin: 0 2rem;
 `;
 
 export default Header;

@@ -14,11 +14,12 @@ const lightTheme = {
     bg: theme.colours.light
 };
 
-const Button = ({ useTheme, useMode, children }) => {
+const Button = ({ useTheme, useMode, children, ...rest }) => {
     return (
         <StyledButton
             theme={useTheme === "dark" ? darkTheme : lightTheme}
             mode={useMode}
+            {...rest}
         >
             {children}
         </StyledButton>
