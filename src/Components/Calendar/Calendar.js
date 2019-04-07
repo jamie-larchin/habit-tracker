@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -22,6 +22,11 @@ class Calendar extends Component {
     getCurrentDay = () => {
         const { date } = this.state;
         return Number(date.format("D"));
+    };
+
+    getMonthName = () => {
+        const { date } = this.state;
+        return date.format("MMMM");
     };
 
     getCalendarCells = () => {
@@ -96,10 +101,13 @@ class Calendar extends Component {
 
     render() {
         return (
-            <Table>
-                {this.renderTableHead()}
-                {this.renderTableBody()}
-            </Table>
+            <Fragment>
+                <h2>{this.getMonthName()}</h2>
+                <Table>
+                    {this.renderTableHead()}
+                    {this.renderTableBody()}
+                </Table>
+            </Fragment>
         );
     }
 }
@@ -119,7 +127,6 @@ const Th = styled.th`
 `;
 
 const Td = styled.td`
-    height: 6.5rem;
     padding: 0;
     ${props =>
         props.isNumbered && `border: 1px solid ${props.theme.colours.grey2}`};
@@ -128,11 +135,13 @@ const Td = styled.td`
 `;
 
 const Cell = styled.div`
-    height: 100%;
+    height: calc(100vh / 8);
+    min-height: 5rem;
+    font-weight: 500;
     display: flex;
     padding: 0.5rem;
     border: 0.125rem solid transparent;
-    font-weight: 500;
+    box-sizing: border-box;
 `;
 
 export default Calendar;
