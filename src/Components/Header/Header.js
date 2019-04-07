@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import { Logo } from "..";
+import { Button, Logo } from "..";
 
 class Header extends Component {
     componentDidMount() {
@@ -19,14 +19,25 @@ class Header extends Component {
             <Container>
                 <Inner>
                     <Logo />
-                    {auth.isAuthenticated() ? (
-                        <button onClick={auth.logout} type="button">
+                    {auth.isAuthenticated() && (
+                        <Button
+                            useTheme="light"
+                            useMode="secondary"
+                            onClick={auth.logout}
+                            type="button"
+                        >
                             Logout
-                        </button>
-                    ) : (
-                        <button onClick={auth.login} type="button">
+                        </Button>
+                    )}
+                    {!auth.isAuthenticated() && (
+                        <Button
+                            useTheme="light"
+                            useMode="secondary"
+                            onClick={auth.login}
+                            type="button"
+                        >
                             Login
-                        </button>
+                        </Button>
                     )}
                 </Inner>
             </Container>
@@ -46,6 +57,9 @@ const Container = styled.header`
 
 const Inner = styled.div`
     max-width: ${props => props.theme.widths.site};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-grow: 1;
     margin: 0 1rem;
 `;

@@ -3,8 +3,14 @@ const theme = {
         dark: "#333333",
         light: "#FFFFFF"
     },
+    fonts: {
+        primary: "Raleway, sans-serif"
+    },
+    fontSizes: {
+        regular: "1rem"
+    },
     widths: {
-        site: "60rem"
+        site: "75rem"
     }
 };
 
