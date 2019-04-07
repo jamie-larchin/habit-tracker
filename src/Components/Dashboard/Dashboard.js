@@ -1,9 +1,21 @@
-import React from "react";
+import React, { Component } from "react";
 
-import { Header } from "..";
+class Dashboard extends Component {
+    state = {
+        profile: {}
+    };
 
-const Dashboard = ({ auth }) => {
-    return <Header auth={auth} />;
-};
+    componentDidMount() {
+        const { auth } = this.props;
+        auth.getProfile((err, profile) => {
+            this.setState({ profile });
+        });
+    }
+
+    render() {
+        const { profile } = this.state;
+        return <div>Welcome, {profile.name}!</div>;
+    }
+}
 
 export default Dashboard;

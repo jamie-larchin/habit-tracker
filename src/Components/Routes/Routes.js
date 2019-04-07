@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Route, Router } from "react-router-dom";
 
-import { App, Callback } from "..";
-import { Auth, History as history } from "../../Services";
+import { Callback, Dashboard, Header, PrivateRoute } from "..";
+import { Auth } from "../../Services";
+import history from "../../history";
 
 class Routes extends Component {
     auth = new Auth();
@@ -14,19 +15,31 @@ class Routes extends Component {
     };
 
     render() {
+        const privateRouteProps = {
+            exact: true,
+            auth: this.auth,
+            history
+        };
+
         return (
-            <Router history={history} component={App}>
+            <Router history={history}>
                 <div>
                     <Route
-                        path="/"
-                        render={props => <App auth={this.auth} {...props} />}
-                    />
-                    <Route
+                        exact
                         path="/callback"
                         render={props => {
                             this.handleAuthentication(props);
-                            return <Callback {...props} />;
+                            return <Callback />;
                         }}
+                    />
+                    <Route
+                        path="/"
+                        render={() => <Header auth={this.auth} />}
+                    />
+                    <PrivateRoute
+                        path="/dashboard"
+                        component={Dashboard}
+                        {...privateRouteProps}
                     />
                 </div>
             </Router>

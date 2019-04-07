@@ -4,15 +4,13 @@ import styled from "styled-components";
 import { Logo } from "..";
 
 class Header extends Component {
-    login = () => {
+    componentDidMount() {
         const { auth } = this.props;
-        auth.login();
-    };
-
-    logout = () => {
-        const { auth } = this.props;
-        auth.logout();
-    };
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if (isLoggedIn) {
+            auth.renewSession();
+        }
+    }
 
     render() {
         const { auth } = this.props;
@@ -22,11 +20,11 @@ class Header extends Component {
                 <Inner>
                     <Logo />
                     {auth.isAuthenticated() ? (
-                        <button onClick={this.logout} type="button">
+                        <button onClick={auth.logout} type="button">
                             Logout
                         </button>
                     ) : (
-                        <button onClick={this.login} type="button">
+                        <button onClick={auth.login} type="button">
                             Login
                         </button>
                     )}

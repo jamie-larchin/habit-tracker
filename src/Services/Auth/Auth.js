@@ -1,5 +1,7 @@
 import auth0 from "auth0-js";
-import { History as history } from "..";
+
+import config from "../../config";
+import history from "../../history";
 
 class Auth {
     accessToken;
@@ -8,21 +10,30 @@ class Auth {
 
     expiresAt;
 
+    userProfile;
+
+    tokenRenewalTimeout;
+
     auth0 = new auth0.WebAuth({
-        domain: "jamielarchin.au.auth0.com",
-        clientID: "PRIPImNvSyNXsc64YFfi3WYpUOIKzQl9",
-        redirectUri: "http://localhost:3001/callback",
+        domain: config.domain,
+        clientID: config.clientId,
+        audience: config.api,
+        redirectUri: config.callbackUrl,
         responseType: "token id_token",
-        scope: "openid"
+        scope: "openid profile"
     });
+
+    login = () => {
+        this.auth0.authorize();
+    };
 
     handleAuthentication = () => {
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
             } else if (err) {
-                history.replace("/");
-                console.error(err.error);
+                history.replace("/dashboard");
+                console.error(err);
             }
         });
     };
@@ -40,12 +51,16 @@ class Auth {
         localStorage.setItem("isLoggedIn", "true");
 
         // Set the time that the access token will expire at
+        const expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
         this.accessToken = authResult.accessToken;
         this.idToken = authResult.idToken;
-        this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+        this.expiresAt = expiresAt;
 
-        // navigate to the home route
-        history.replace("/");
+        // schedule a token renewal
+        this.scheduleRenewal();
+
+        // navigate to the dashboard route
+        history.replace("/dashboard");
     };
 
     renewSession = () => {
@@ -54,13 +69,18 @@ class Auth {
                 this.setSession(authResult);
             } else if (err) {
                 this.logout();
-                console.error(err.error);
+                console.error(err);
             }
         });
     };
 
-    login = () => {
-        this.auth0.authorize();
+    getProfile = cb => {
+        this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+            if (profile) {
+                this.userProfile = profile;
+            }
+            cb(err, profile);
+        });
     };
 
     logout = () => {
@@ -69,17 +89,41 @@ class Auth {
         this.idToken = null;
         this.expiresAt = 0;
 
+        // Remove user profile
+        this.userProfile = null;
+
+        // Clear token renewal
+        clearTimeout(this.tokenRenewalTimeout);
+
         // Remove isLoggedIn flag from localStorage
         localStorage.removeItem("isLoggedIn");
 
-        // navigate to the home route
+        this.auth0.logout({
+            return_to: config.allowedLogoutUrl,
+            clientID: config.clientId
+        });
+
+        // navigate to the public route
         history.replace("/");
     };
 
     isAuthenticated = () => {
         // Check whether the current time is past the
-        // access token's expiry time
+        // access token"s expiry time
         return new Date().getTime() < this.expiresAt;
+    };
+
+    scheduleRenewal = () => {
+        const timeout = this.expiresAt - Date.now();
+        if (timeout > 0) {
+            this.tokenRenewalTimeout = setTimeout(() => {
+                this.renewSession();
+            }, timeout);
+        }
+    };
+
+    getExpiryDate = () => {
+        return JSON.stringify(new Date(this.expiresAt));
     };
 }
 
