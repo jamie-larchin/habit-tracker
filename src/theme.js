@@ -1,9 +1,20 @@
 const theme = {
+    light: {
+        bg: "#FFFFFF",
+        fg: "#333333"
+    },
+    dark: {
+        bg: "#333333",
+        fg: "#FFFFFF"
+    },
+    greys: {
+        f: "#F9F9F9",
+        e: "#E9E9E9"
+    },
     colours: {
-        dark: "#333333",
-        light: "#FFFFFF",
-        grey1: "#F9F9F9",
-        grey2: "#E9E9E9"
+        rgb: {
+            blue: "25, 186, 255"
+        }
     },
     fonts: {
         primary: "Raleway, sans-serif"

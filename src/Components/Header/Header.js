@@ -22,7 +22,8 @@ class Header extends Component {
                     {auth.isAuthenticated() && (
                         <Button
                             useTheme="light"
-                            useMode="secondary"
+                            mode="secondary"
+                            size="primary"
                             onClick={auth.logout}
                             type="button"
                         >
@@ -32,7 +33,8 @@ class Header extends Component {
                     {!auth.isAuthenticated() && (
                         <Button
                             useTheme="light"
-                            useMode="secondary"
+                            mode="secondary"
+                            size="primary"
                             onClick={auth.login}
                             type="button"
                         >
@@ -46,8 +48,8 @@ class Header extends Component {
 }
 
 const Container = styled.header`
-    background-color: ${props => props.theme.colours.dark};
-    color: ${props => props.theme.colours.light};
+    background-color: ${props => props.theme.dark.bg};
+    color: ${props => props.theme.dark.fg};
     width: 100%;
     height: 4rem;
     display: flex;

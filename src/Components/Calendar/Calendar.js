@@ -2,9 +2,21 @@ import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
+import { Button, Icon } from "..";
+
 class Calendar extends Component {
     state = {
         date: moment()
+    };
+
+    handleNav = type => {
+        const { date } = this.state;
+        this.setState({
+            date:
+                type === "prev"
+                    ? date.subtract(1, "months")
+                    : date.add(1, "months")
+        });
     };
 
     getFirstDayOfMonth = () => {
@@ -102,7 +114,30 @@ class Calendar extends Component {
     render() {
         return (
             <Fragment>
-                <h2>{this.getMonthName()}</h2>
+                <Header>
+                    <h2>{this.getMonthName()}</h2>
+                    <Nav>
+                        {["prev", "next"].map(navType => {
+                            return (
+                                <Button
+                                    useTheme="dark"
+                                    mode="primary"
+                                    size="secondary"
+                                    onClick={() => this.handleNav(navType)}
+                                    type="button"
+                                >
+                                    <Icon
+                                        icon={
+                                            navType === "prev"
+                                                ? "ChevronLeft"
+                                                : "ChevronRight"
+                                        }
+                                    />
+                                </Button>
+                            );
+                        })}
+                    </Nav>
+                </Header>
                 <Table>
                     {this.renderTableHead()}
                     {this.renderTableBody()}
@@ -112,6 +147,19 @@ class Calendar extends Component {
     }
 }
 
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+`;
+
+const Nav = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 4.75rem;
+`;
+
 const Table = styled.table`
     width: 100%;
     table-layout: fixed;
@@ -119,19 +167,17 @@ const Table = styled.table`
 `;
 
 const Th = styled.th`
-    background-color: ${props => props.theme.colours.dark};
-    color: ${props => props.theme.colours.light};
-    border: 1px solid ${props => props.theme.colours.dark};
+    background-color: ${props => props.theme.dark.bg};
+    color: ${props => props.theme.dark.fg};
+    border: 1px solid ${props => props.theme.dark.bg};
     padding: 0.75rem;
     font-weight: 500;
 `;
 
 const Td = styled.td`
     padding: 0;
-    ${props =>
-        props.isNumbered && `border: 1px solid ${props.theme.colours.grey2}`};
-    ${props =>
-        props.isToday && `background-color ${props.theme.colours.grey1}`};
+    ${props => props.isNumbered && `border: 1px solid ${props.theme.greys.e}`};
+    ${props => props.isToday && `background-color ${props.theme.greys.f}`};
 `;
 
 const Cell = styled.div`
