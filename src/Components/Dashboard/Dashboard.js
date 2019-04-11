@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Calendar } from "..";
+import { Calendar, Habits } from "..";
 
 const Dashboard = () => {
     return (
         <Container>
             <Inner>
+                <Habits />
                 <Calendar />
             </Inner>
         </Container>
