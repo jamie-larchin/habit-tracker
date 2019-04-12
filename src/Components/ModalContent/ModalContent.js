@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import FocusTrap from "focus-trap-react";
 
 import { Icon } from "..";
 import { Styles } from "../../Services";
@@ -15,25 +16,27 @@ const ModalContent = ({
     content
 }) => {
     return ReactDOM.createPortal(
-        <Cover
-            role="dialog"
-            aria-label={title}
-            aria-modal="true"
-            tabIndex="-1"
-            onClick={e => handleClickOutside(e, handleToggle)}
-            onKeyDown={e => handleKeyDown(e, handleToggle)}
-        >
-            <Container ref={modalRef}>
-                <CloseButton
-                    aria-label="Close modal"
-                    onClick={handleToggle}
-                    ref={closeButtonRef}
-                >
-                    <Icon icon="Times" />
-                </CloseButton>
-                <Content>{content}</Content>
-            </Container>
-        </Cover>,
+        <FocusTrap>
+            <Cover
+                role="dialog"
+                aria-label={title}
+                aria-modal="true"
+                tabIndex="-1"
+                onClick={e => handleClickOutside(e, handleToggle)}
+                onKeyDown={e => handleKeyDown(e, handleToggle)}
+            >
+                <Container ref={modalRef}>
+                    <CloseButton
+                        aria-label="Close modal"
+                        onClick={handleToggle}
+                        ref={closeButtonRef}
+                    >
+                        <Icon icon="Times" />
+                    </CloseButton>
+                    <Content>{content}</Content>
+                </Container>
+            </Cover>
+        </FocusTrap>,
         document.body
     );
 };
