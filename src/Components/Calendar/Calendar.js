@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -10,13 +10,12 @@ class Calendar extends Component {
     };
 
     handleNav = type => {
-        const { date } = this.state;
-        this.setState({
+        this.setState(prevState => ({
             date:
                 type === "prev"
-                    ? date.subtract(1, "months")
-                    : date.add(1, "months")
-        });
+                    ? prevState.date.subtract(1, "months")
+                    : prevState.date.add(1, "months")
+        }));
     };
 
     getFirstDayOfMonth = () => {
@@ -113,18 +112,15 @@ class Calendar extends Component {
 
     render() {
         return (
-            <Fragment>
+            <section>
                 <Header>
                     <h2>{this.getMonthName()}</h2>
                     <Nav>
                         {["prev", "next"].map(navType => {
                             return (
                                 <Button
-                                    useTheme="dark"
-                                    mode="primary"
                                     size="secondary"
                                     onClick={() => this.handleNav(navType)}
-                                    type="button"
                                 >
                                     <Icon
                                         icon={
@@ -142,7 +138,7 @@ class Calendar extends Component {
                     {this.renderTableHead()}
                     {this.renderTableBody()}
                 </Table>
-            </Fragment>
+            </section>
         );
     }
 }
@@ -154,7 +150,7 @@ const Header = styled.div`
     margin-bottom: 1rem;
 `;
 
-const Nav = styled.div`
+const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     width: 4.75rem;

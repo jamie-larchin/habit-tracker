@@ -23,9 +23,7 @@ class Header extends Component {
                         <Button
                             useTheme="light"
                             mode="secondary"
-                            size="primary"
                             onClick={auth.logout}
-                            type="button"
                         >
                             Logout
                         </Button>
@@ -34,9 +32,7 @@ class Header extends Component {
                         <Button
                             useTheme="light"
                             mode="secondary"
-                            size="primary"
                             onClick={auth.login}
-                            type="button"
                         >
                             Login
                         </Button>

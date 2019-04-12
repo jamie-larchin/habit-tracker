@@ -7,5 +7,7 @@ export { default as Habits } from "./Habits";
 export { default as Header } from "./Header";
 export { default as Icon } from "./Icon";
 export { default as Logo } from "./Logo";
+export { default as Modal } from "./Modal";
+export { default as ModalContent } from "./ModalContent";
 export { default as PrivateRoute } from "./PrivateRoute";
 export { default as Routes } from "./Routes";

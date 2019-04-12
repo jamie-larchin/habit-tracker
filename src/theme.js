@@ -1,11 +1,15 @@
 const theme = {
     light: {
         bg: "#FFFFFF",
-        fg: "#333333"
+        fg: "#333333",
+        bgRgb: "255, 255, 255",
+        fgRgb: "51, 51, 51"
     },
     dark: {
         bg: "#333333",
-        fg: "#FFFFFF"
+        fg: "#FFFFFF",
+        bgRgb: "51, 51, 51",
+        fgRgb: "255, 255, 255"
     },
     greys: {
         f: "#F9F9F9",

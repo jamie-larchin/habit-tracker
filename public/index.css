@@ -20,5 +20,14 @@ h4 {
 }
 
 h1 {
+    font-size: 2rem;
     font-weight: 300;
+}
+
+h2 {
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-size: 1.375rem;
 }

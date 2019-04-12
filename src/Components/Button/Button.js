@@ -3,9 +3,24 @@ import styled, { css } from "styled-components";
 
 import { Styles } from "../../Services";
 
-const Button = ({ useTheme, mode, size, children, ...rest }) => {
+const Button = ({
+    useTheme = "dark",
+    mode = "primary",
+    size = "primary",
+    type = "button",
+    forwardRef,
+    children,
+    ...rest
+}) => {
     return (
-        <StyledButton useTheme={useTheme} mode={mode} size={size} {...rest}>
+        <StyledButton
+            useTheme={useTheme}
+            mode={mode}
+            size={size}
+            type={type}
+            ref={forwardRef}
+            {...rest}
+        >
             {children}
         </StyledButton>
     );
@@ -14,11 +29,21 @@ const Button = ({ useTheme, mode, size, children, ...rest }) => {
 const primaryMode = css`
     background-color: ${props => props.theme[props.useTheme].bg};
     color: ${props => props.theme[props.useTheme].fg};
+
+    &:hover {
+        filter: contrast(1.25);
+        transition: all 0.3s ease;
+    }
 `;
 
 const secondaryMode = css`
     border: 0.125rem solid ${props => props.theme[props.useTheme].bg};
     color: ${props => props.theme[props.useTheme].bg};
+
+    &:hover {
+        background: ${props => `rgba(${props.theme[props.useTheme].bg}, 0.1)`};
+        transition: all 0.3s ease;
+    }
 `;
 
 const primarySize = css`
@@ -39,9 +64,8 @@ const StyledButton = styled.button`
     font-weight: 500;
     border-radius: 0.125rem;
     box-sizing: border-box;
-    transition: box-shadow 0.3s ease;
+    transition: all 0.3s ease;
 
-    &:hover,
     &:focus {
         outline: none;
         box-shadow: ${props =>
@@ -50,7 +74,7 @@ const StyledButton = styled.button`
             }, 1), 0 0 0 3px rgba(25, 186, 255, ${
                 props.useTheme === "dark" ? 0.4 : 0.5
             })`};
-        transition: box-shadow 0.3s ease;
+        transition: all 0.3s ease;
     }
 `;
 
