@@ -41,7 +41,8 @@ const secondaryMode = css`
     color: ${props => props.theme[props.useTheme].bg};
 
     &:hover {
-        background: ${props => `rgba(${props.theme[props.useTheme].bg}, 0.1)`};
+        background: ${props =>
+            `rgba(${props.theme[props.useTheme].bgRgb}, 0.1)`};
         transition: all 0.3s ease;
     }
 `;
