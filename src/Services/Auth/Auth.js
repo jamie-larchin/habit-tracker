@@ -15,10 +15,10 @@ class Auth {
     tokenRenewalTimeout;
 
     auth0 = new auth0.WebAuth({
-        domain: config.domain,
-        clientID: config.clientId,
-        audience: config.api,
-        redirectUri: config.callbackUrl,
+        domain: config.auth.domain,
+        clientID: config.auth.clientId,
+        audience: config.auth.api,
+        redirectUri: config.auth.callbackUrl,
         responseType: "token id_token",
         scope: "openid profile"
     });
@@ -99,8 +99,8 @@ class Auth {
         localStorage.removeItem("isLoggedIn");
 
         this.auth0.logout({
-            return_to: config.allowedLogoutUrl,
-            clientID: config.clientId
+            return_to: config.auth.allowedLogoutUrl,
+            clientID: config.auth.clientId
         });
 
         // navigate to the public route
@@ -127,4 +127,4 @@ class Auth {
     };
 }
 
-export default Auth;
+export default new Auth();

@@ -2,22 +2,20 @@ import React, { Component } from "react";
 import { Route, Router } from "react-router-dom";
 
 import { Callback, Dashboard, Header, PrivateRoute } from "..";
-import { Auth } from "../../Services";
+import { Auth as auth } from "../../Services";
 import history from "../../history";
 
 class Routes extends Component {
-    auth = new Auth();
-
     handleAuthentication = nextState => {
         if (/access_token|id_token|error/.test(nextState.location.hash)) {
-            this.auth.handleAuthentication();
+            auth.handleAuthentication();
         }
     };
 
     render() {
         const privateRouteProps = {
             exact: true,
-            auth: this.auth,
+            auth,
             history
         };
 
@@ -32,10 +30,7 @@ class Routes extends Component {
                             return <Callback />;
                         }}
                     />
-                    <Route
-                        path="/"
-                        render={() => <Header auth={this.auth} />}
-                    />
+                    <Route path="/" render={() => <Header auth={auth} />} />
                     <PrivateRoute
                         path="/dashboard"
                         component={Dashboard}
