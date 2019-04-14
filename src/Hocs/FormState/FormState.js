@@ -20,12 +20,13 @@ const FormState = WrappedComponent => ({ fields }) => {
         }
 
         initialiseState = () => {
+            const { props } = this;
             const validateFns = {
                 required: this.validateRequired
             };
             this.setState({
                 values: fields.reduce((acc, field) => {
-                    acc[field.name] = field.initialValue;
+                    acc[field.name] = props[field.name] || field.initialValue;
                     return acc;
                 }, {}),
                 labels: fields.reduce((acc, field) => {
@@ -91,8 +92,9 @@ const FormState = WrappedComponent => ({ fields }) => {
                     }, []).length
                 }),
                 () => {
-                    if (callback) {
-                        callback(...this.state);
+                    const { isValid } = this.state;
+                    if (callback && isValid) {
+                        callback();
                     }
                 }
             );

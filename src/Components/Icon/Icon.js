@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChevronLeft,
     faChevronRight,
+    faPen,
     faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,6 +11,7 @@ const Icon = ({ icon, ...rest }) => {
     const availableIcons = {
         ChevronLeft: faChevronLeft,
         ChevronRight: faChevronRight,
+        Pen: faPen,
         Times: faTimes
     };
 

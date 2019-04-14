@@ -5,6 +5,7 @@ export { default as Calendar } from "./Calendar";
 export { default as Callback } from "./Callback";
 export { default as ColourInput } from "./ColourInput";
 export { default as Dashboard } from "./Dashboard";
+export { default as Habit } from "./Habit";
 export { default as Habits } from "./Habits";
 export { default as Header } from "./Header";
 export { default as Icon } from "./Icon";

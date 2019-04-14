@@ -1,25 +1,50 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
-import { AddNewHabit } from "..";
-import { Styles } from "../../Services";
+import { AddNewHabit, Habit } from "..";
+import { Api, Styles } from "../../Services";
 
-const Habits = () => {
-    return (
-        <Container>
-            <Row>
-                <h3>Habits</h3>
-                <AddNewHabit />
-            </Row>
-            <List>
-                <Item>Eat well</Item>
-                <Item>Physical activity</Item>
-                <Item>No alcohol</Item>
-                <Item>Do a hobby</Item>
-            </List>
-        </Container>
-    );
-};
+class Habits extends Component {
+    state = { data: [] };
+
+    componentDidMount() {
+        Api.habits
+            .getAll()
+            .then(({ data }) => {
+                this.setState({ data });
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    render() {
+        const { data } = this.state;
+
+        return (
+            <Container>
+                <Row>
+                    <h3>Habits</h3>
+                    <AddNewHabit />
+                </Row>
+                <List>
+                    {data.map(habit => {
+                        const key = habit.name
+                            .toLowerCase()
+                            .split(" ")
+                            .join("-");
+
+                        return (
+                            <Item key={key}>
+                                <Habit {...habit} />
+                            </Item>
+                        );
+                    })}
+                </List>
+            </Container>
+        );
+    }
+}
 
 const Container = styled.section`
     margin-bottom: 3rem;
@@ -35,10 +60,12 @@ const Row = styled.div`
 const List = styled.ul`
     ${Styles.resetUl};
     display: flex;
+    width: calc(100% + 0.5rem);
+    transform: translateX(-0.5rem);
 `;
 
 const Item = styled.li`
-    margin-right: 2rem;
+    margin-right: 1.5rem;
 `;
 
 export default Habits;

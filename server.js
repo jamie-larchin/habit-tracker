@@ -73,6 +73,16 @@ app.post("/api/habits", checkJwt, (req, res) => {
     res.json(habits);
 });
 
+app.put("/api/habits/:id", checkJwt, (req, res) => {
+    const { id } = req.params;
+    const habits = db
+        .get("habits")
+        .find({ id })
+        .assign({ ...req.body })
+        .write();
+    res.json(habits);
+});
+
 app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
     res.json({
         message:
