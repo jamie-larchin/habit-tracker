@@ -31,7 +31,7 @@ const primaryMode = css`
     color: ${props => props.theme[props.useTheme].fg};
 
     &:hover {
-        filter: contrast(1.25);
+        filter: contrast(1.5);
         transition: all 0.3s ease;
     }
 `;
