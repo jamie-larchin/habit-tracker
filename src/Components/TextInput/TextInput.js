@@ -37,13 +37,12 @@ const Input = styled.input`
     border: ${props => `0.0625rem solid ${props.theme.greys.e}`};
     font-size: ${props => props.theme.fontSizes.regular};
     font-family: ${props => props.theme.fonts.primary};
+    transition: all 0.3s ease;
 
     &:focus {
         outline: none;
         box-shadow: ${props =>
-            `0 0 0 1px rgba(${
-                props.theme.colours.rgb.blue
-            }, 1), 0 0 0 3px rgba(25, 186, 255, 0.4)`};
+            `0 0 0 0.1875rem rgba(${props.theme.colours.rgb.blue}, 0.75)`};
         transition: all 0.3s ease;
     }
 `;

@@ -76,18 +76,23 @@ const Content = styled.div``;
 const CloseButton = styled.button`
     ${Styles.resetButton};
     position: absolute;
-    top: 0.0625rem;
-    right: 0.0625rem;
+    top: 0.25rem;
+    right: 0.25rem;
     width: 2rem;
     height: 2rem;
     font-size: 1rem;
     color: ${props => props.theme.light.fg};
+    border-radius: 0.125rem;
+    transition: all 0.3s ease;
 
     &:hover {
         filter: contrast(2);
     }
     &:focus {
-        outline: ${props => `0.0625rem solid ${props.theme.light.fg}`};
+        outline: none;
+        box-shadow: ${props =>
+            `0 0 0 0.1875rem rgba(${props.theme.colours.rgb.blue}, 0.75)`};
+        transition: all 0.3s ease;
     }
 `;
 
