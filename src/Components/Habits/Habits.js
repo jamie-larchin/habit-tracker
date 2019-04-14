@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { HabitsModal } from "..";
+import { AddNewHabit } from "..";
 import { Styles } from "../../Services";
 
 const Habits = () => {
@@ -9,7 +9,7 @@ const Habits = () => {
         <Container>
             <Row>
                 <h3>Habits</h3>
-                <HabitsModal />
+                <AddNewHabit />
             </Row>
             <List>
                 <Item>Eat well</Item>

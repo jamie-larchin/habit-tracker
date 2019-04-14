@@ -4,7 +4,7 @@ import { Button, ColourInput, Modal, TextInput } from "..";
 import { FormState } from "../../Hocs";
 import { Api } from "../../Services";
 
-class HabitsModal extends Component {
+class AddNewHabit extends Component {
     handleSubmit = (event, callback) => {
         event.preventDefault();
         const { validateForm } = this.props;
@@ -84,4 +84,4 @@ const fields = [
     }
 ];
 
-export default FormState(HabitsModal)({ fields });
+export default FormState(AddNewHabit)({ fields });
