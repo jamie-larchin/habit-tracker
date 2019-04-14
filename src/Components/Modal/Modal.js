@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
-// import styled from "styled-components";
 
-import { Button, ModalContent } from "..";
+import { ModalContent } from "..";
 
 class Modal extends Component {
     state = { isOpen: false };
@@ -42,17 +41,12 @@ class Modal extends Component {
     };
 
     render() {
-        const { title, triggerText, render } = this.props;
+        const { title, trigger, content } = this.props;
         const { isOpen } = this.state;
 
         return (
             <Fragment>
-                <Button
-                    onClick={this.handleToggle}
-                    forwardRef={this.triggerButtonNode}
-                >
-                    {triggerText}
-                </Button>
+                {trigger(this.triggerButtonNode, this.handleToggle)}
                 {isOpen && (
                     <ModalContent
                         title={title}
@@ -62,7 +56,7 @@ class Modal extends Component {
                         modalRef={this.modalNode}
                         closeButtonRef={this.closeButtonNode}
                     >
-                        {render(this.handleToggle)}
+                        {content(this.handleToggle)}
                     </ModalContent>
                 )}
             </Fragment>

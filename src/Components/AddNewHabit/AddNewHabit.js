@@ -30,45 +30,54 @@ class AddNewHabit extends Component {
         );
     };
 
-    render() {
-        const { values, errors, handleChange, handleBlur } = this.props;
+    renderTrigger = (triggerRef, handleToggleModal) => {
+        return (
+            <Button onClick={handleToggleModal} forwardRef={triggerRef}>
+                Add habit
+            </Button>
+        );
+    };
 
+    renderContent = handleToggleModal => {
+        const { values, errors, handleChange, handleBlur } = this.props;
+        return (
+            <Fragment>
+                <h4 style={{ marginBottom: "1rem" }}>Form a new habit</h4>
+                <form onSubmit={e => this.handleSubmit(e, handleToggleModal)}>
+                    <TextInput
+                        label="Name"
+                        name="name"
+                        value={values.name}
+                        handleChange={e => handleChange(e)}
+                        handleBlur={e => handleBlur(e)}
+                        errors={errors.name}
+                        required
+                    />
+                    <ColourInput
+                        label="Colour"
+                        name="colour"
+                        value={values.colour}
+                        handleChange={e => handleChange(e)}
+                        handleBlur={e => handleBlur(e)}
+                        errors={errors.colour}
+                        required
+                    />
+                    <Button type="submit">Save</Button>
+                </form>
+            </Fragment>
+        );
+    };
+
+    render() {
         return (
             <Modal
                 title="Add a new habit"
-                triggerText="Add habit"
-                render={handleToggleModal => (
-                    <Fragment>
-                        <h4 style={{ marginBottom: "1rem" }}>
-                            Form a new habit
-                        </h4>
-                        <form
-                            onSubmit={e =>
-                                this.handleSubmit(e, handleToggleModal)
-                            }
-                        >
-                            <TextInput
-                                label="Name"
-                                name="name"
-                                value={values.name}
-                                handleChange={e => handleChange(e)}
-                                handleBlur={e => handleBlur(e)}
-                                errors={errors.name}
-                                required
-                            />
-                            <ColourInput
-                                label="Colour"
-                                name="colour"
-                                value={values.colour}
-                                handleChange={e => handleChange(e)}
-                                handleBlur={e => handleBlur(e)}
-                                errors={errors.colour}
-                                required
-                            />
-                            <Button type="submit">Save</Button>
-                        </form>
-                    </Fragment>
-                )}
+                trigger={(triggerRef, handleToggleModal) =>
+                    this.renderTrigger(triggerRef, handleToggleModal)
+                }
+                content={handleToggleModal =>
+                    this.renderContent(handleToggleModal)
+                }
             />
         );
     }
