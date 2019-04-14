@@ -2,15 +2,28 @@ import React from "react";
 import styled from "styled-components";
 
 import { Styles } from "../../Services";
-import { Modal } from "..";
+import { FormState } from "../../Hocs";
+import { Button, Modal, TextInput } from "..";
 
-const Habits = () => {
+const Habits = ({ values, errors, handleChange, handleBlur }) => {
     return (
         <Container>
             <Row>
                 <h3>Habits</h3>
                 <Modal title="Add a new habit" triggerText="Add habit">
-                    Content goes here
+                    <h4 style={{ marginBottom: "1rem" }}>Form a new habit</h4>
+                    <form>
+                        <TextInput
+                            label="Name"
+                            name="name"
+                            value={values.name}
+                            handleChange={e => handleChange(e)}
+                            handleBlur={e => handleBlur(e)}
+                            errors={errors.name}
+                            required
+                        />
+                        <Button type="submit">Save</Button>
+                    </form>
                 </Modal>
             </Row>
             <List>
@@ -43,4 +56,8 @@ const Item = styled.li`
     margin-right: 2rem;
 `;
 
-export default Habits;
+const fields = [
+    { name: "name", label: "Name", initialValue: "", validateType: "required" }
+];
+
+export default FormState(Habits)({ fields });
