@@ -1,39 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
+import { HabitsModal } from "..";
 import { Styles } from "../../Services";
-import { FormState } from "../../Hocs";
-import { Button, ColourInput, Modal, TextInput } from "..";
 
-const Habits = ({ values, errors, handleChange, handleBlur }) => {
+const Habits = () => {
     return (
         <Container>
             <Row>
                 <h3>Habits</h3>
-                <Modal title="Add a new habit" triggerText="Add habit">
-                    <h4 style={{ marginBottom: "1rem" }}>Form a new habit</h4>
-                    <form>
-                        <TextInput
-                            label="Name"
-                            name="name"
-                            value={values.name}
-                            handleChange={e => handleChange(e)}
-                            handleBlur={e => handleBlur(e)}
-                            errors={errors.name}
-                            required
-                        />
-                        <ColourInput
-                            label="Colour"
-                            name="colour"
-                            value={values.colour}
-                            handleChange={e => handleChange(e)}
-                            handleBlur={e => handleBlur(e)}
-                            errors={errors.colour}
-                            required
-                        />
-                        <Button type="submit">Save</Button>
-                    </form>
-                </Modal>
+                <HabitsModal />
             </Row>
             <List>
                 <Item>Eat well</Item>
@@ -65,14 +41,4 @@ const Item = styled.li`
     margin-right: 2rem;
 `;
 
-const fields = [
-    { name: "name", label: "Name", initialValue: "", validateType: "required" },
-    {
-        name: "colour",
-        label: "Colour",
-        initialValue: "",
-        validateType: "required"
-    }
-];
-
-export default FormState(Habits)({ fields });
+export default Habits;

@@ -14,12 +14,7 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("db.json");
 const db = low(adapter);
 db.defaults({
-    habits: [
-        {
-            id: 1,
-            name: "My first habit"
-        }
-    ]
+    habits: []
 }).write();
 
 if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
@@ -73,7 +68,7 @@ app.post("/api/habits", checkJwt, (req, res) => {
 
     const habits = db
         .get("habits")
-        .push({ id: dbCount + 1, name: req.body.name })
+        .push({ id: dbCount + 1, ...req.body })
         .write();
     res.json(habits);
 });
@@ -85,10 +80,10 @@ app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
     });
 });
 
-// app.use((err, req, res, next) => {
-//     console.error(err.stack);
-//     return res.status(err.status).json({ message: err.message });
-// });
+app.use(({ stack, status, message }, req, res) => {
+    console.error(stack);
+    return res.status(status).json({ message });
+});
 
 app.listen(3010);
 console.info("Listening on http://localhost:3010");

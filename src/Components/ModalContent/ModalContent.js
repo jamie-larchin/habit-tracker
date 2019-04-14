@@ -13,7 +13,7 @@ const ModalContent = ({
     handleClickOutside,
     modalRef,
     closeButtonRef,
-    content
+    children
 }) => {
     return ReactDOM.createPortal(
         <FocusTrap>
@@ -33,7 +33,7 @@ const ModalContent = ({
                     >
                         <Icon icon="Times" />
                     </CloseButton>
-                    <Content>{content}</Content>
+                    <Content>{children}</Content>
                 </Container>
             </Cover>
         </FocusTrap>,

@@ -92,7 +92,7 @@ const FormState = WrappedComponent => ({ fields }) => {
                 }),
                 () => {
                     if (callback) {
-                        callback();
+                        callback(...this.state);
                     }
                 }
             );
@@ -128,29 +128,6 @@ const FormState = WrappedComponent => ({ fields }) => {
             }));
         };
 
-        handleSubmit = (event, api, params) => {
-            event.preventDefault();
-
-            this.validateForm(() => {
-                const { isValid } = this.state;
-                if (!isValid) return;
-                this.setState({ isLoading: true });
-
-                api(params)
-                    .then(() => {
-                        this.handleResetForm();
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        this.setState({
-                            isSubmitted: true,
-                            isSubmitSuccessful: false,
-                            isLoading: false
-                        });
-                    });
-            });
-        };
-
         handleResetForm = () => {
             this.initialiseState();
             this.setState(
@@ -172,6 +149,15 @@ const FormState = WrappedComponent => ({ fields }) => {
             );
         };
 
+        handleErrors = err => {
+            console.error(err);
+            this.setState({
+                isSubmitted: true,
+                isSubmitSuccessful: false,
+                isLoading: false
+            });
+        };
+
         render() {
             const { ...props } = this.props;
             const { ...state } = this.state;
@@ -180,10 +166,10 @@ const FormState = WrappedComponent => ({ fields }) => {
                 <WrappedComponent
                     handleChange={this.handleChange}
                     handleBlur={this.handleBlur}
-                    handleSubmit={this.handleSubmit}
-                    handleResetForm={this.handleResetForm}
-                    handleUpdateState={this.handleUpdateState}
                     validateForm={this.validateForm}
+                    handleUpdateState={this.handleUpdateState}
+                    handleResetForm={this.handleResetForm}
+                    handleErrors={this.handleErrors}
                     {...props}
                     {...state}
                 />

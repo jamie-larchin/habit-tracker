@@ -42,7 +42,7 @@ class Modal extends Component {
     };
 
     render() {
-        const { title, triggerText, children } = this.props;
+        const { title, triggerText, render } = this.props;
         const { isOpen } = this.state;
 
         return (
@@ -61,8 +61,9 @@ class Modal extends Component {
                         handleClickOutside={this.handleClickOutside}
                         modalRef={this.modalNode}
                         closeButtonRef={this.closeButtonNode}
-                        content={children}
-                    />
+                    >
+                        {render(this.handleToggle)}
+                    </ModalContent>
                 )}
             </Fragment>
         );
