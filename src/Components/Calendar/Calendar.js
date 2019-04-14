@@ -119,6 +119,7 @@ class Calendar extends Component {
                         {["prev", "next"].map(navType => {
                             return (
                                 <Button
+                                    key={navType}
                                     size="secondary"
                                     onClick={() => this.handleNav(navType)}
                                 >
