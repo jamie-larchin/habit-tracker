@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Styles } from "../../Services";
 import { FormState } from "../../Hocs";
-import { Button, Modal, TextInput } from "..";
+import { Button, ColourInput, Modal, TextInput } from "..";
 
 const Habits = ({ values, errors, handleChange, handleBlur }) => {
     return (
@@ -20,6 +20,15 @@ const Habits = ({ values, errors, handleChange, handleBlur }) => {
                             handleChange={e => handleChange(e)}
                             handleBlur={e => handleBlur(e)}
                             errors={errors.name}
+                            required
+                        />
+                        <ColourInput
+                            label="Colour"
+                            name="colour"
+                            value={values.colour}
+                            handleChange={e => handleChange(e)}
+                            handleBlur={e => handleBlur(e)}
+                            errors={errors.colour}
                             required
                         />
                         <Button type="submit">Save</Button>
@@ -57,7 +66,13 @@ const Item = styled.li`
 `;
 
 const fields = [
-    { name: "name", label: "Name", initialValue: "", validateType: "required" }
+    { name: "name", label: "Name", initialValue: "", validateType: "required" },
+    {
+        name: "colour",
+        label: "Colour",
+        initialValue: "",
+        validateType: "required"
+    }
 ];
 
 export default FormState(Habits)({ fields });
