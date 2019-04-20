@@ -31,14 +31,33 @@ class Habit extends Component {
         });
     };
 
+    getTheme = hex => {
+        const r = `0x${hex[1]}${hex[2]}`;
+        const g = `0x${hex[3]}${hex[4]}`;
+        const b = `0x${hex[5]}${hex[6]}`;
+
+        const hsp = Math.sqrt(
+            0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b)
+        );
+
+        return hsp <= 127.5 ? "dark" : "light";
+    };
+
     renderTrigger = (triggerRef, handleToggleModal) => {
         const { name, colour } = this.props;
         return (
-            <Trigger onClick={handleToggleModal} ref={triggerRef}>
-                <Colour value={colour} />
-                {name}
-                <Icon icon="Pen" />
-            </Trigger>
+            <>
+                <Trigger onClick={handleToggleModal} ref={triggerRef}>
+                    {name}
+                </Trigger>
+                <Colour
+                    value={colour}
+                    getTheme={this.getTheme(colour)}
+                    aria-label={`Add ${name} to calendar`}
+                >
+                    <Icon icon="ArrowsAlt" />
+                </Colour>
+            </>
         );
     };
 
@@ -89,40 +108,43 @@ const Trigger = styled.button`
     ${Styles.resetButton};
     display: flex;
     align-items: center;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.125rem;
     font-size: ${props => props.theme.fontSizes.regular};
-    transition: box-shadow 0.3s ease;
-
-    svg {
-        opacity: 0;
-        font-size: 0.875rem;
-        margin-left: 0.375rem;
-        transition: opacity 0.3s ease;
-    }
+    transition: text-decoration 0.3s ease;
 
     &:hover,
     &:focus {
+        outline: none;
+        text-decoration: underline;
+        transition: text-decoration 0.3s ease;
+    }
+`;
+
+const Colour = styled.button`
+    ${Styles.resetButton};
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.875rem;
+    border-radius: 50%;
+    background-color: ${props => props.value};
+    color: ${props => props.theme[props.getTheme].fg};
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover,
+    &:focus {
+        outline: none;
         svg {
             opacity: 1;
             transition: opacity 0.3s ease;
         }
     }
 
-    &:focus {
-        outline: none;
-        box-shadow: ${props =>
-            `0 0 0 0.1875rem rgba(${props.theme.light.fgRgb}, 0.1)`};
-        transition: box-shadow 0.3s ease;
+    svg {
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
-`;
-
-const Colour = styled.span`
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 50%;
-    background-color: ${props => props.value};
-    margin-right: 0.5rem;
 `;
 
 const fields = [

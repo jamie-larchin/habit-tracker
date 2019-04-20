@@ -72,6 +72,7 @@ const List = styled.ul`
 
 const Item = styled.li`
     margin-right: 1.5rem;
+    display: flex;
 `;
 
 export default Habits;
