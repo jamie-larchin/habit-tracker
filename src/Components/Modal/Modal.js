@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { ModalContent } from "..";
 
@@ -45,7 +45,7 @@ class Modal extends Component {
         const { isOpen } = this.state;
 
         return (
-            <Fragment>
+            <>
                 {trigger(this.triggerButtonNode, this.handleToggle)}
                 {isOpen && (
                     <ModalContent
@@ -59,7 +59,7 @@ class Modal extends Component {
                         {content(this.handleToggle)}
                     </ModalContent>
                 )}
-            </Fragment>
+            </>
         );
     }
 }

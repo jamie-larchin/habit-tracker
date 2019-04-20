@@ -67,7 +67,6 @@ const List = styled.ul`
     ${Styles.resetUl};
     display: flex;
     width: calc(100% + 0.5rem);
-    transform: translateX(-0.5rem);
 `;
 
 const Item = styled.li`
