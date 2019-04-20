@@ -1,50 +1,56 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { AddNewHabit, Habit } from "..";
 import { Api, Styles } from "../../Services";
 
-class Habits extends Component {
-    state = { data: [] };
+const Habits = () => {
+    const [data, setData] = useState([]);
 
-    componentDidMount() {
+    useEffect(() => {
         Api.habits
             .getAll()
-            .then(({ data }) => {
-                this.setState({ data });
+            .then(res => {
+                setData(
+                    res.data.reduce((acc, item) => {
+                        acc[item.id] = item;
+                        return acc;
+                    }, {})
+                );
             })
-            .catch(err => {
-                console.error(err);
-            });
-    }
+            .catch(err => console.error(err));
+    }, []);
 
-    render() {
-        const { data } = this.state;
+    const updateHabit = (id, newData) => {
+        setData({
+            ...data,
+            [id]: newData
+        });
+    };
 
-        return (
-            <Container>
-                <Row>
-                    <h3>Habits</h3>
-                    <AddNewHabit />
-                </Row>
-                <List>
-                    {data.map(habit => {
-                        const key = habit.name
-                            .toLowerCase()
-                            .split(" ")
-                            .join("-");
+    return (
+        <Container>
+            <Row>
+                <h3>Habits</h3>
+                <AddNewHabit />
+            </Row>
+            <List>
+                {Object.values(data).map(habit => {
+                    const key = habit.name
+                        .toLowerCase()
+                        .split(" ")
+                        .join("-");
 
-                        return (
-                            <Item key={key}>
-                                <Habit {...habit} />
-                            </Item>
-                        );
-                    })}
-                </List>
-            </Container>
-        );
-    }
-}
+                    return (
+                        <Item key={key}>
+                            <Habit {...habit} update={updateHabit} />
+                        </Item>
+                    );
+                })}
+            </List>
+        </Container>
+    );
+};
 
 const Container = styled.section`
     margin-bottom: 3rem;

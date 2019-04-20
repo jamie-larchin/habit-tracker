@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { Button, ColourInput, Modal, TextInput } from "..";
 import { FormState } from "../../Hocs";
@@ -41,37 +41,34 @@ class AddNewHabit extends Component {
     renderContent = handleToggleModal => {
         const { values, errors, handleChange, handleBlur } = this.props;
         return (
-            <Fragment>
-                <h4 style={{ marginBottom: "1rem" }}>Form a new habit</h4>
-                <form onSubmit={e => this.handleSubmit(e, handleToggleModal)}>
-                    <TextInput
-                        label="Name"
-                        name="name"
-                        value={values.name}
-                        handleChange={e => handleChange(e)}
-                        handleBlur={e => handleBlur(e)}
-                        errors={errors.name}
-                        required
-                    />
-                    <ColourInput
-                        label="Colour"
-                        name="colour"
-                        value={values.colour}
-                        handleChange={e => handleChange(e)}
-                        handleBlur={e => handleBlur(e)}
-                        errors={errors.colour}
-                        required
-                    />
-                    <Button type="submit">Save</Button>
-                </form>
-            </Fragment>
+            <form onSubmit={e => this.handleSubmit(e, handleToggleModal)}>
+                <TextInput
+                    label="Name"
+                    name="name"
+                    value={values.name}
+                    handleChange={e => handleChange(e)}
+                    handleBlur={e => handleBlur(e)}
+                    errors={errors.name}
+                    required
+                />
+                <ColourInput
+                    label="Colour"
+                    name="colour"
+                    value={values.colour}
+                    handleChange={e => handleChange(e)}
+                    handleBlur={e => handleBlur(e)}
+                    errors={errors.colour}
+                    required
+                />
+                <Button type="submit">Save</Button>
+            </form>
         );
     };
 
     render() {
         return (
             <Modal
-                title="Add a new habit"
+                title="Form a new habit"
                 trigger={(triggerRef, handleToggleModal) =>
                     this.renderTrigger(triggerRef, handleToggleModal)
                 }

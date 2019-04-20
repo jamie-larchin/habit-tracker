@@ -33,7 +33,10 @@ const ModalContent = ({
                     >
                         <Icon icon="Times" />
                     </CloseButton>
-                    <Content>{children}</Content>
+                    <Content>
+                        <h4 style={{ marginBottom: "1rem" }}>{title}</h4>
+                        {children}
+                    </Content>
                 </Container>
             </Cover>
         </FocusTrap>,

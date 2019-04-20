@@ -77,7 +77,7 @@ app.put("/api/habits/:id", checkJwt, (req, res) => {
     const { id } = req.params;
     const habits = db
         .get("habits")
-        .find({ id })
+        .find({ id: parseInt(id, 10) })
         .assign({ ...req.body })
         .write();
     res.json(habits);

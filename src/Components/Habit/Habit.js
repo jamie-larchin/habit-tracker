@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 import { Button, ColourInput, Icon, Modal, TextInput } from "..";
@@ -14,15 +14,17 @@ class Habit extends Component {
                 values,
                 handleUpdateState,
                 handleResetForm,
-                handleErrors
+                handleErrors,
+                update
             } = this.props;
 
             handleUpdateState({ isLoading: true });
 
             Api.habits
                 .put(id, values)
-                .then(() => {
+                .then(({ data }) => {
                     handleResetForm();
+                    update(id, data);
                     callback();
                 })
                 .catch(err => handleErrors(err));
@@ -43,30 +45,27 @@ class Habit extends Component {
     renderContent = handleToggleModal => {
         const { values, errors, handleChange, handleBlur } = this.props;
         return (
-            <Fragment>
-                <h4 style={{ marginBottom: "1rem" }}>Form a new habit</h4>
-                <form onSubmit={e => this.handleSubmit(e, handleToggleModal)}>
-                    <TextInput
-                        label="Name"
-                        name="name"
-                        value={values.name}
-                        handleChange={e => handleChange(e)}
-                        handleBlur={e => handleBlur(e)}
-                        errors={errors.name}
-                        required
-                    />
-                    <ColourInput
-                        label="Colour"
-                        name="colour"
-                        value={values.colour}
-                        handleChange={e => handleChange(e)}
-                        handleBlur={e => handleBlur(e)}
-                        errors={errors.colour}
-                        required
-                    />
-                    <Button type="submit">Save</Button>
-                </form>
-            </Fragment>
+            <form onSubmit={e => this.handleSubmit(e, handleToggleModal)}>
+                <TextInput
+                    label="Name"
+                    name="name"
+                    value={values.name}
+                    handleChange={e => handleChange(e)}
+                    handleBlur={e => handleBlur(e)}
+                    errors={errors.name}
+                    required
+                />
+                <ColourInput
+                    label="Colour"
+                    name="colour"
+                    value={values.colour}
+                    handleChange={e => handleChange(e)}
+                    handleBlur={e => handleBlur(e)}
+                    errors={errors.colour}
+                    required
+                />
+                <Button type="submit">Save</Button>
+            </form>
         );
     };
 
@@ -74,7 +73,7 @@ class Habit extends Component {
         const { name } = this.props;
         return (
             <Modal
-                title={`Edit &ldquo;${name}&rdquo;`}
+                title={`Edit “${name}”`}
                 trigger={(triggerRef, handleToggleModal) =>
                     this.renderTrigger(triggerRef, handleToggleModal)
                 }
@@ -127,7 +126,12 @@ const Colour = styled.span`
 `;
 
 const fields = [
-    { name: "name", label: "Name", initialValue: "", validateType: "required" },
+    {
+        name: "name",
+        label: "Name",
+        initialValue: "",
+        validateType: "required"
+    },
     {
         name: "colour",
         label: "Colour",
