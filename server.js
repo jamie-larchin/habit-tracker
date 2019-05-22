@@ -2,7 +2,6 @@ const express = require("express");
 
 const app = express();
 const jwt = require("express-jwt");
-const jwtAuthz = require("express-jwt-authz");
 const jwksRsa = require("jwks-rsa");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -14,7 +13,8 @@ const FileSync = require("lowdb/adapters/FileSync");
 const adapter = new FileSync("db.json");
 const db = low(adapter);
 db.defaults({
-    habits: []
+    habits: [],
+    calendar: {}
 }).write();
 
 if (!process.env.AUTH0_DOMAIN || !process.env.AUTH0_AUDIENCE) {
@@ -31,21 +31,18 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 const checkJwt = jwt({
-    // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
     secret: jwksRsa.expressJwtSecret({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
         jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
     }),
-
-    // Validate the audience and the issuer.
     audience: process.env.AUTH0_AUDIENCE,
     issuer: `https://${process.env.AUTH0_DOMAIN}/`,
     algorithms: ["RS256"]
 });
-const checkScopes = jwtAuthz(["read:habits"]);
 
+// GET
 app.get("/api/habits", checkJwt, (req, res) => {
     const habits = db.get("habits").value();
     res.json(habits);
@@ -60,6 +57,17 @@ app.get("/api/habits/:id", checkJwt, (req, res) => {
     res.json(habit);
 });
 
+app.get("/api/calendar/:year/:month", checkJwt, (req, res) => {
+    const { year, month } = req.params;
+    const calendar = db
+        .get("calendar")
+        .get(year)
+        .get(month)
+        .value();
+    res.json(calendar);
+});
+
+// POST
 app.post("/api/habits", checkJwt, (req, res) => {
     const dbCount = db
         .get("habits")
@@ -73,6 +81,7 @@ app.post("/api/habits", checkJwt, (req, res) => {
     res.json(habits);
 });
 
+// PUT
 app.put("/api/habits/:id", checkJwt, (req, res) => {
     const { id } = req.params;
     const habits = db
@@ -81,13 +90,6 @@ app.put("/api/habits/:id", checkJwt, (req, res) => {
         .assign({ ...req.body })
         .write();
     res.json(habits);
-});
-
-app.get("/api/private-scoped", checkJwt, checkScopes, (req, res) => {
-    res.json({
-        message:
-            "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
-    });
 });
 
 app.use(({ stack, status, message }, req, res) => {

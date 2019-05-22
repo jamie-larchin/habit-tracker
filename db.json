@@ -15,5 +15,22 @@
             "name": "No alcohol",
             "colour": "#c9e949"
         }
-    ]
+    ],
+    "calendar": {
+        "2019": {
+            "05": {
+                "22": [
+                    {
+                        "id": 1,
+                        "name": "Eat well",
+                        "colour": "#7ee9be",
+                        "coordinates": {
+                            "x": 50,
+                            "y": 50
+                        }
+                    }
+                ]
+            }
+        }
+    }
 }

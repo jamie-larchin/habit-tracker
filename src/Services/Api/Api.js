@@ -14,6 +14,10 @@ class Api {
         delete: id => this.delete("habits", id)
     };
 
+    calendar = {
+        get: (year, month) => this.get("calendar", `${year}/${month}`)
+    };
+
     sendRequest = (uri, method, data) => {
         const token = Auth.accessToken;
         let requestConfig = {

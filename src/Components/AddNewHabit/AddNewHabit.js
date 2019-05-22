@@ -8,26 +8,32 @@ class AddNewHabit extends Component {
     handleSubmit = (event, callback) => {
         event.preventDefault();
         const { validateForm } = this.props;
-        validateForm(
-            ({
+        validateForm(() => {
+            const {
                 values,
                 isValid,
                 handleUpdateState,
                 handleResetForm,
-                handleErrors
-            }) => {
-                if (!isValid) return;
-                handleUpdateState({ isLoading: true });
+                handleErrors,
+                habits,
+                setHabits
+            } = this.props;
+            if (!isValid) return;
+            handleUpdateState({ isLoading: true });
 
-                Api.habits
-                    .post(values)
-                    .then(() => {
-                        handleResetForm();
-                        callback();
-                    })
-                    .catch(err => handleErrors(err));
-            }
-        );
+            Api.habits
+                .post(values)
+                .then(res => {
+                    setHabits({
+                        ...habits,
+                        ...res.data
+                    });
+
+                    handleResetForm();
+                    callback();
+                })
+                .catch(err => handleErrors(err));
+        });
     };
 
     renderTrigger = (triggerRef, handleToggleModal) => {

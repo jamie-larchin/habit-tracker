@@ -1,29 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { AddNewHabit, Habit } from "..";
-import { Api, Styles } from "../../Services";
+import { Styles } from "../../Services";
 
-const Habits = () => {
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        Api.habits
-            .getAll()
-            .then(res => {
-                setData(
-                    res.data.reduce((acc, item) => {
-                        acc[item.id] = item;
-                        return acc;
-                    }, {})
-                );
-            })
-            .catch(err => console.error(err));
-    }, []);
-
+const Habits = ({ habits, setHabits }) => {
     const updateHabit = (id, newData) => {
-        setData({
-            ...data,
+        setHabits({
+            ...habits,
             [id]: newData
         });
     };
@@ -32,10 +16,10 @@ const Habits = () => {
         <Container>
             <Row>
                 <h3>Habits</h3>
-                <AddNewHabit />
+                <AddNewHabit habits={habits} setHabits={setHabits} />
             </Row>
             <List>
-                {Object.values(data).map(habit => {
+                {Object.values(habits).map(habit => {
                     const key = habit.name
                         .toLowerCase()
                         .split(" ")
@@ -66,11 +50,12 @@ const Row = styled.div`
 const List = styled.ul`
     ${Styles.resetUl};
     display: flex;
-    width: calc(100% + 0.5rem);
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
 `;
 
 const Item = styled.li`
-    margin-right: 1.5rem;
+    margin: 0.375rem 0.5rem;
     display: flex;
 `;
 

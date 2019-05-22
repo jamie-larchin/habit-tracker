@@ -74,6 +74,7 @@ const StyledButton = styled.button`
                 props.useTheme === "dark" ? 0.85 : 0.75
             })`};
         transition: all 0.3s ease;
+        filter: none;
     }
 `;
 

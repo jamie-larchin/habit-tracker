@@ -96,6 +96,7 @@ const CloseButton = styled.button`
         box-shadow: ${props =>
             `0 0 0 0.1875rem rgba(${props.theme.colours.rgb.blue}, 0.75)`};
         transition: all 0.3s ease;
+        filter: none;
     }
 `;
 
